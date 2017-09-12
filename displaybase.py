@@ -31,6 +31,9 @@ class BaseDisplay():
 
         while True:
             ret, frame = cap.read()
+            if color is True:
+                gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                cv2.imshow('Gray', gray)
             cv2.imshow('Video Feed', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
