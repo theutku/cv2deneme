@@ -24,19 +24,29 @@ class BaseDisplay():
         plt.imshow(img, cmap='gray', interpolation='bicubic')
         plt.show()
 
-    def displayVideoFeed(self, videoSource=0, color=True):
+    def displayVideoFeed(self, videoSource=0, double_color=False, save=False):
         print('Starting Video Feed...')
         print('Press Q to quit')
         cap = cv2.VideoCapture(videoSource)
 
+        if save is True:
+            fourcc = cv2.VideoWriter_fourcc(*'XVID')
+            out = cv2.VideoWriter('savedvideo.avi', fourcc, 20.0, (640, 480))
+
         while True:
             ret, frame = cap.read()
-            if color is True:
+            if double_color is True:
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 cv2.imshow('Gray', gray)
+
+            if save is True:
+                out.write(frame)
+
             cv2.imshow('Video Feed', frame)
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
         cap.release()
+        if save is True:
+            out.release()
         cv2.destroyAllWindows()
