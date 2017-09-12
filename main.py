@@ -7,10 +7,10 @@ from displaybase import BaseDisplay
 if __name__ == '__main__':
     displayer = BaseDisplay()
 
-    # displayer.displayCvImage('sampleimg.jpg')
-    # displayer.displayCvImage('sampleimg.jpg', color=False)
+    displayer.displayCvImage('sampleimg.jpg')
+    displayer.displayCvImage('sampleimg.jpg', color=False)
 
-    # displayer.displayPlotImage('sampleimg.jpg')
-    # displayer.displayPlotImage('sampleimg.jpg', color=False)
+    displayer.displayPlotImage('sampleimg.jpg')
+    displayer.displayPlotImage('sampleimg.jpg', color=False)
 
-    displayer.displayVideoFeed(save=True)
+    displayer.displayVideoFeed(save=False)
