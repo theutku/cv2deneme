@@ -8,10 +8,10 @@ from imageprocessbase import ImageProcessorBase
 
 class BaseDisplay():
 
-    def displayAndClose(self, image, title='', closeWhenfinished=True):
+    def displayAndClose(self, image, title='', closeWhenFinished=True):
         cv2.imshow(title, image)
         cv2.waitKey(0)
-        if closeWhenfinished is True:
+        if closeWhenFinished is True:
             cv2.destroyAllWindows()
 
     def displayCvImage(self, imageName, color=True, save=False, legend=True):
