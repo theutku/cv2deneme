@@ -13,17 +13,6 @@ if __name__ == '__main__':
     displayer.displayPlotImage('sampleimg.jpg')
     displayer.displayPlotImage('sampleimg.jpg', color=False)
 
-    # displayer.displayVideoFeed(save=False)
+    displayer.displayThreshold('python.png')
 
-# img = cv2.imread('sampleimg.jpg', cv2.IMREAD_COLOR)
-# # cv2.imshow('image', img)
-# # cv2.waitKey(0)
-
-# # part = img[140:307, 294:370]
-# # cv2.imshow('cut', part)
-# # cv2.waitKey(0)
-
-# # cv2.destroyAllWindows()
-
-# plt.imshow(img, interpolation='bicubic')
-# plt.show()
+    displayer.displayVideoFeed(grayscale=True, save=False)

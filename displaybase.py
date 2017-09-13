@@ -1,6 +1,7 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+
 from imagetextbase import ImageTextInput
 from imageprocessbase import ImageProcessorBase
 
@@ -32,7 +33,7 @@ class BaseDisplay():
         plt.imshow(img, cmap='gray', interpolation='bicubic')
         plt.show()
 
-    def displayVideoFeed(self, videoSource=0, double_color=False, save=False):
+    def displayVideoFeed(self, videoSource=0, grayscale=False, save=False):
         print('Starting Video Feed...')
         print('Press Q to quit')
         cap = cv2.VideoCapture(videoSource)
@@ -43,7 +44,7 @@ class BaseDisplay():
 
         while True:
             ret, frame = cap.read()
-            if double_color is True:
+            if grayscale is True:
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 cv2.imshow('Gray', gray)
 
