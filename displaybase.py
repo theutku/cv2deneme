@@ -1,21 +1,29 @@
 import cv2
 import numpy as np
 import matplotlib.pyplot as plt
+from imagetextbase import ImageTextInput
+from imageprocessbase import ImageProcessorBase
 
 
 class BaseDisplay():
 
-    def displayCvImage(self, imageName, color=True, save=False):
+    def displayAndClose(self, image, title='', closeWhenfinished=True):
+        cv2.imshow(title, image)
+        cv2.waitKey(0)
+        if closeWhenfinished is True:
+            cv2.destroyAllWindows()
+
+    def displayCvImage(self, imageName, color=True, save=False, legend=True):
         colorOption = cv2.IMREAD_COLOR if color is True else cv2.IMREAD_GRAYSCALE
         img = cv2.imread(imageName, colorOption)
 
-        cv2.imshow('Image', img)
+        if legend is True:
+            ImageTextInput().addText(img, 'Press any key to continue...')
 
         if color is False & save is True:
             cv2.imwrite('savedimage.png', img)
 
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
+        self.displayAndClose(img, 'Image')
 
     def displayPlotImage(self, imageName, color=True):
         colorOption = cv2.IMREAD_COLOR if color is True else cv2.IMREAD_GRAYSCALE
@@ -50,3 +58,7 @@ class BaseDisplay():
         if save is True:
             out.release()
         cv2.destroyAllWindows()
+
+    def displayThreshold(self, image):
+        ret, mask = ImageProcessorBase().returnThreshold(image)
+        self.displayAndClose(mask, 'Threshold')
