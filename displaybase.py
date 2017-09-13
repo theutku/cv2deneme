@@ -61,5 +61,6 @@ class BaseDisplay():
         cv2.destroyAllWindows()
 
     def displayThreshold(self, image):
-        ret, mask = ImageProcessorBase().returnThreshold(image)
-        self.displayAndClose(mask, 'Threshold')
+        ret, mask, inv_mask = ImageProcessorBase().returnThreshold(image)
+        self.displayAndClose(mask, 'Threshold', closeWhenFinished=False)
+        self.displayAndClose(inv_mask, 'Inverse Threshold')
