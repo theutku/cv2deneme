@@ -67,7 +67,7 @@ class BaseDisplay():
         self.displayAndClose(mask, 'Threshold', closeWhenFinished=False)
         self.displayAndClose(inv_mask, 'InverseThreshold')
 
-    def displayFilteredCam(self, videoSource=0, lower_color=[0, 0, 0], upper_color=[255, 255, 255], smoothing=None):
+    def displayFilteredCam(self, videoSource=0, lower_color=[0, 0, 0], upper_color=[255, 255, 255], smoothing=None, morphology=None):
         print('Starting Filtered Video Feed...')
         print('Press ESC to quit')
 
@@ -88,14 +88,20 @@ class BaseDisplay():
             cv2.imshow('Mask', mask)
             cv2.imshow('Filtered Video Output', result)
 
-            if smoothing is not None:
+            if smoothing is not None and morphology is None:
                 if smoothing == 'all':
-                    ImageProcessorBase().addSmoothing(result, 'all')
+                    ImageProcessorBase().addBasicSmoothing(result, smoothing)
                 else:
-                    smoothed_frame, smoothing_name = ImageProcessorBase().addSmoothing(
+                    smoothed_frame, smoothing_name = ImageProcessorBase().addBasicSmoothing(
                         result, smoothing_method=smoothing)
                     cv2.imshow(smoothing_name, smoothed_frame)
-
+            elif smoothing is None and morphology is not None:
+                if morphology == 'all':
+                    ImageProcessorBase().addMorphology(result, morphology)
+                else:
+                    morphed, morph_name = ImageProcessorBase().addMorphology(
+                        result, morph_medthod=morphology)
+                    cv2.imshow(morph_name, morphed)
             if cv2.waitKey(27) & 0xFF == 27:
                 break
 
