@@ -43,7 +43,7 @@ class BaseDisplay():
             out = cv2.VideoWriter('savedvideo.avi', fourcc, 20.0, (640, 480))
 
         while True:
-            ret, frame = cap.read()
+            _, frame = cap.read()
             if grayscale is True:
                 gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
                 cv2.imshow('Gray', gray)
@@ -52,6 +52,7 @@ class BaseDisplay():
                 out.write(frame)
 
             cv2.imshow('Video Feed', frame)
+
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
 
