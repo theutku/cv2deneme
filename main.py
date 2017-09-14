@@ -16,3 +16,7 @@ if __name__ == '__main__':
     displayer.displayThreshold('python.png')
 
     displayer.displayVideoFeed(grayscale=True, save=False)
+
+    # Show only red colors
+    displayer.displayFilteredCam(videoSource=0, lower_color=[
+                                 150, 150, 50], upper_color=[180, 255, 150])

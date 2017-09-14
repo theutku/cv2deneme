@@ -62,6 +62,34 @@ class BaseDisplay():
         cv2.destroyAllWindows()
 
     def displayThreshold(self, image):
-        ret, mask, inv_mask = ImageProcessorBase().returnThreshold(image)
+        ret, img, mask, inv_mask = ImageProcessorBase().returnThreshold(image)
+        self.displayAndClose(img, 'Original Image', closeWhenFinished=False)
         self.displayAndClose(mask, 'Threshold', closeWhenFinished=False)
-        self.displayAndClose(inv_mask, 'Inverse Threshold')
+        self.displayAndClose(inv_mask, 'InverseThreshold')
+
+    def displayFilteredCam(self, videoSource=0, lower_color=[0, 0, 0], upper_color=[255, 255, 255]):
+        print('Starting Filtered Video Feed...')
+        print('Press ESC to quit')
+
+        cap = cv2.VideoCapture(videoSource)
+
+        while True:
+            _, frame = cap.read()
+
+            hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV)
+
+            lower_red = np.array(lower_color)
+            upper_red = np.array(upper_color)
+
+            mask = cv2.inRange(hsv, lower_red, upper_red)
+            result = cv2.bitwise_and(frame, frame, mask=mask)
+
+            cv2.imshow('Original Video Output', frame)
+            cv2.imshow('Mask', mask)
+            cv2.imshow('Filtered Video Output', result)
+
+            if cv2.waitKey(27) & 0xFF == 27:
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
