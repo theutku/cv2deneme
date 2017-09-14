@@ -67,11 +67,12 @@ class BaseDisplay():
         self.displayAndClose(mask, 'Threshold', closeWhenFinished=False)
         self.displayAndClose(inv_mask, 'InverseThreshold')
 
-    def displayFilteredCam(self, videoSource=0, lower_color=[0, 0, 0], upper_color=[255, 255, 255]):
+    def displayFilteredCam(self, videoSource=0, lower_color=[0, 0, 0], upper_color=[255, 255, 255], smoothing=None):
         print('Starting Filtered Video Feed...')
         print('Press ESC to quit')
 
         cap = cv2.VideoCapture(videoSource)
+        kernel = np.ones((15, 15), np.float) / 255
 
         while True:
             _, frame = cap.read()
@@ -87,6 +88,22 @@ class BaseDisplay():
             cv2.imshow('Original Video Output', frame)
             cv2.imshow('Mask', mask)
             cv2.imshow('Filtered Video Output', result)
+
+            if blur is not None:
+                smoothed = cv2.filter2D(result, -1, kernel)
+                gblur = cv2.GaussianBlur(result, (15, 15), 0)
+                median_blur = cv2.medianBlur(result, 15)
+
+                if blur == 'kernel':
+                    cv2.imshow('Kernel Smoothing', smoothed)
+                elif blur == 'gaussian':
+                    cv2.imshow('Gaussian Blur Smoothing', gblur)
+                elif blur == 'median':
+                    cv2.imshow('Median Blur Smoothing', median_blur)
+                elif blur == 'all':
+                    cv2.imshow('Kernel Smoothing', smoothed)
+                    cv2.imshow('Gaussian Blur Smoothing', gblur)
+                    cv2.imshow('Median Blur Smoothing', median_blur)
 
             if cv2.waitKey(27) & 0xFF == 27:
                 break
