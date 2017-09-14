@@ -7,15 +7,15 @@ from displaybase import BaseDisplay
 if __name__ == '__main__':
     displayer = BaseDisplay()
 
-    # displayer.displayCvImage('sampleimg.jpg', legend=True)
-    # displayer.displayCvImage('sampleimg.jpg', color=False, legend=False)
+    displayer.displayCvImage('sampleimg.jpg', legend=True)
+    displayer.displayCvImage('sampleimg.jpg', color=False, legend=False)
 
-    # displayer.displayPlotImage('sampleimg.jpg')
-    # displayer.displayPlotImage('sampleimg.jpg', color=False)
+    displayer.displayPlotImage('sampleimg.jpg')
+    displayer.displayPlotImage('sampleimg.jpg', color=False)
 
-    # displayer.displayThreshold('python.png')
+    displayer.displayThreshold('python.png')
 
-    # displayer.displayVideoFeed(grayscale=True, save=False)
+    displayer.displayVideoFeed(grayscale=True, save=False)
 
     # Show only red colors
     displayer.displayFilteredCam(videoSource=0, lower_color=[

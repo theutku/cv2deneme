@@ -42,7 +42,7 @@ class ImageProcessorBase():
             cv2.imshow('Gaussian Blur Smoothing', gblur)
             cv2.imshow('Median Blur Smoothing', median_blur)
 
-    def addMorphology(self, frame, morph_medthod='opening'):
+    def addMorphology(self, frame, morph_medthod='closing'):
         kernel = np.ones((5, 5), np.uint8)
         erosion = cv2.erode(frame, kernel, iterations=1)
         dilation = cv2.dilate(frame, kernel, iterations=1)
