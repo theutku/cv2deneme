@@ -145,3 +145,22 @@ class BaseDisplay():
 
         cap.release()
         cv2.destroyAllWindows()
+
+    def matchTemplate(self, image, template):
+        img_bgr = cv2.imread(image)
+        img_gray = cv2.cvtColor(img_bgr, cv2.COLOR_BGR2GRAY)
+
+        template_img = cv2.imread(template, 0)
+        width, height = template_img.shape[::-1]
+
+        result = cv2.matchTemplate(
+            img_gray, template_img, cv2.TM_CCOEFF_NORMED)
+        match_quality = 0.8
+        location = np.where(result >= match_quality)
+
+        for point in zip(*location[::-1]):
+            cv2.rectangle(
+                img_bgr, point, (point[0] + width, point[1] + height), (0, 255, 255), 2)
+
+        self.displayAndClose(img_bgr, 'Matches', closeWhenFinished=False)
+        self.displayAndClose(template_img, 'Template')
