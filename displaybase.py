@@ -107,3 +107,41 @@ class BaseDisplay():
 
         cap.release()
         cv2.destroyAllWindows()
+
+    def displayGradients(self, videoSource=0, method='laplace'):
+        cap = cv2.VideoCapture(videoSource)
+
+        while True:
+            _, frame = cap.read()
+
+            cv2.imshow('Original Video Output', frame)
+
+            if method == 'all':
+                ImageProcessorBase().addGradient(frame, grad_method='all', kernel_size=5)
+            else:
+                result, method_name = ImageProcessorBase().addGradient(
+                    frame, grad_method=method, kernel_size=5)
+                cv2.imshow(method_name, result)
+
+            if cv2.waitKey(27) & 0xFF == 27:
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+
+    def detectEdges(self, videoSource=0, row_size=100, column_size=200):
+        cap = cv2.VideoCapture(videoSource)
+
+        while True:
+            _, frame = cap.read()
+
+            cv2.imshow('Original Video Output', frame)
+
+            edges = cv2.Canny(frame, row_size, column_size)
+            cv2.imshow('Edges', edges)
+
+            if cv2.waitKey(27) & 0xFF == 27:
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()

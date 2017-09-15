@@ -19,4 +19,8 @@ if __name__ == '__main__':
 
     # Show only red colors
     displayer.displayFilteredCam(videoSource=0, lower_color=[
-                                 150, 150, 50], upper_color=[180, 255, 150], morphology='all')
+        150, 150, 50], upper_color=[180, 255, 150], morphology='all')
+
+    displayer.displayGradients(videoSource=0, method='all')
+
+    displayer.detectEdges(row_size=100, column_size=100)

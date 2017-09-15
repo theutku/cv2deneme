@@ -17,6 +17,12 @@ class ImageProcessorBase():
         'closing': 'Closing Morphology'
     }
 
+    gradients = {
+        'laplace': 'Laplacian Gradient',
+        'sobelx': 'X-axis Sobel Gradient',
+        'sobely': 'Y-axis Sobel Gradient'
+    }
+
     def returnThreshold(self, image):
         img = cv2.imread(image)
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
@@ -63,3 +69,19 @@ class ImageProcessorBase():
             cv2.imshow('Dilation Morphology', dilation)
             cv2.imshow('Opening Morphology', opening)
             cv2.imshow('Closing Morphology', closing)
+
+    def addGradient(self, frame, grad_method='laplace', kernel_size=5):
+        laplacian = cv2.Laplacian(frame, cv2.CV_64F)
+        sobelx = cv2.Sobel(frame, cv2.CV_64F, 1, 0, ksize=kernel_size)
+        sobely = cv2.Sobel(frame, cv2.CV_64F, 0, 1, ksize=kernel_size)
+
+        if grad_method == 'laplace':
+            return laplacian, self.gradients[grad_method]
+        elif grad_method == 'sobelx':
+            return sobelx, self.gradients[grad_method]
+        elif grad_method == 'sobely':
+            return sobely, self.gradients[grad_method]
+        elif grad_method == 'all':
+            cv2.imshow('Laplacian Gradient', laplacian)
+            cv2.imshow('X-axis Sobel Gradient', sobelx)
+            cv2.imshow('Y-axis Sobel Gradient', sobely)
