@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     displayer.displayGradients(videoSource=0, method='all')
 
-    displayer.detectEdges(row_size=100, column_size=100)
+    displayer.detectEdges(videoSource=0, row_size=100, column_size=200)
 
     displayer.matchTemplate('templateimg/sampleimage.jpg',
                             'templateimg/templateimage.jpg')

@@ -14,6 +14,14 @@ class BaseDisplay():
         if closeWhenFinished is True:
             cv2.destroyAllWindows()
 
+    def printVideoMessage(self, message='', key_message=''):
+        if message == '':
+            print('Starting Filtered Video Feed...')
+            print('Press ESC to quit')
+        else:
+            print(message)
+            print(key_message)
+
     def displayCvImage(self, imageName, color=True, save=False, legend=True):
         colorOption = cv2.IMREAD_COLOR if color is True else cv2.IMREAD_GRAYSCALE
         img = cv2.imread(imageName, colorOption)
@@ -68,8 +76,7 @@ class BaseDisplay():
         self.displayAndClose(inv_mask, 'InverseThreshold')
 
     def displayFilteredCam(self, videoSource=0, lower_color=[0, 0, 0], upper_color=[255, 255, 255], smoothing=None, morphology=None):
-        print('Starting Filtered Video Feed...')
-        print('Press ESC to quit')
+        self.printVideoMessage()
 
         cap = cv2.VideoCapture(videoSource)
 
@@ -110,6 +117,7 @@ class BaseDisplay():
 
     def displayGradients(self, videoSource=0, method='laplace'):
         cap = cv2.VideoCapture(videoSource)
+        self.printVideoMessage()
 
         while True:
             _, frame = cap.read()
@@ -131,6 +139,7 @@ class BaseDisplay():
 
     def detectEdges(self, videoSource=0, row_size=100, column_size=200):
         cap = cv2.VideoCapture(videoSource)
+        self.printVideoMessage()
 
         while True:
             _, frame = cap.read()
