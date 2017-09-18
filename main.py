@@ -28,5 +28,8 @@ if __name__ == '__main__':
     # displayer.matchTemplate('templateimg/sampleimage.jpg',
     #                         'templateimg/templateimage.jpg')
 
-    displayer.displayForeground(
-        'foreground/foreground-image.jpg', rectangle=(50, 50, 300, 500))
+    # displayer.displayForeground(
+    #     'foreground/foreground-image.jpg', rectangle=(50, 50, 300, 500))
+
+    displayer.displayCorners('corners/corner-sample.jpg',
+                             feature_count=100, quality=0.01, minimum_distance=10)

@@ -102,3 +102,17 @@ class ImageProcessorBase():
         extracted = image * mask2[:, :, np.newaxis]
 
         return extracted
+
+    def detectCorners(self, image, feature_count, quality, minimum_distance):
+        gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
+        gray32 = np.float32(gray)
+
+        corners = cv2.goodFeaturesToTrack(
+            gray32, feature_count, quality, minimum_distance)
+        corners_int = np.int_(corners)
+
+        for corner in corners_int:
+            x, y = corner.ravel()
+            cv2.circle(image, (x, y), 3, 255, -1)
+
+        return image

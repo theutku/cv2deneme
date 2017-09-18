@@ -182,3 +182,12 @@ class BaseDisplay():
         plt.imshow(foreground)
         plt.colorbar()
         plt.show()
+
+    def displayCorners(self, image, feature_count=100, quality=0.01, minimum_distance=10):
+        img = cv2.imread(image)
+        self.displayAndClose(img, 'Original Image', closeWhenFinished=False)
+
+        corners = ImageProcessorBase().detectCorners(
+            img, feature_count, quality, minimum_distance)
+
+        self.displayAndClose(corners, 'Corners')
