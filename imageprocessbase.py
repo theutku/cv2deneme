@@ -85,3 +85,20 @@ class ImageProcessorBase():
             cv2.imshow('Laplacian Gradient', laplacian)
             cv2.imshow('X-axis Sobel Gradient', sobelx)
             cv2.imshow('Y-axis Sobel Gradient', sobely)
+
+    def extractForeground(self, image, rectangle):
+        mask = np.zeros(image.shape[:2], np.uint8)
+
+        bgdModel = np.zeros((1, 65), np.float)
+        fgdModel = np.zeros((1, 65), np.float)
+
+        rect = rectangle
+
+        cv2.grabCut(image, mask, rect, bgdModel,
+                    fgdModel, 5, cv2.GC_INIT_WITH_RECT)
+
+        mask2 = np.where((mask == 2) | (mask == 0), 0, 1).astype('uint8')
+
+        extracted = image * mask2[:, :, np.newaxis]
+
+        return extracted

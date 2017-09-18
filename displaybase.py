@@ -173,3 +173,12 @@ class BaseDisplay():
 
         self.displayAndClose(img_bgr, 'Matches', closeWhenFinished=False)
         self.displayAndClose(template_img, 'Template')
+
+    def displayForeground(self, image, rectangle=(161, 79, 150, 150)):
+        img = cv2.imread(image)
+
+        foreground = ImageProcessorBase().extractForeground(img, rectangle)
+
+        plt.imshow(foreground)
+        plt.colorbar()
+        plt.show()
