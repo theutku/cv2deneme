@@ -4,6 +4,14 @@ import numpy as np
 
 class HaarCascadeBase():
 
+    def printVideoMessage(self, message='', key_message=''):
+        if message == '':
+            print('Starting Video Feed...')
+            print('Press ESC to quit')
+        else:
+            print(message)
+            print(key_message)
+
     def loadCascadeFile(self, cascade_file):
 
         if type(cascade_file) is list:
@@ -18,6 +26,7 @@ class HaarCascadeBase():
 
     def displayEyesAndFaces(self, cascade_files, videoSource=0):
         cap = cv2.VideoCapture(videoSource)
+        self.printVideoMessage()
 
         cascades = self.loadCascadeFile(cascade_files)
         face_cascade = cascades[0]
