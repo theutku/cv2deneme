@@ -116,3 +116,20 @@ class ImageProcessorBase():
             cv2.circle(image, (x, y), 3, 255, -1)
 
         return image
+
+    def matchFeatures(self, main_image, feature_image, feature_count):
+
+        orb = cv2.ORB_create()
+
+        keypoint1, descriptor1 = orb.detectAndCompute(main_image, None)
+        keypoint2, descriptor2 = orb.detectAndCompute(feature_image, None)
+
+        bf = cv2.BFMatcher(cv2.NORM_HAMMING, crossCheck=True)
+
+        matches = bf.match(descriptor1, descriptor2)
+        matches = sorted(matches, key=lambda x: x.distance)
+
+        match_img = cv2.drawMatches(
+            main_image, keypoint1, feature_image, keypoint2, matches[:feature_count], None, flags=2)
+
+        return match_img

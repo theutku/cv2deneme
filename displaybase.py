@@ -191,3 +191,13 @@ class BaseDisplay():
             img, feature_count, quality, minimum_distance)
 
         self.displayAndClose(corners, 'Corners')
+
+    def displayFeatureMatch(self, main_image, feature_image, feature_number=10):
+        main = cv2.imread(feature_image, 0)
+        feature_img = cv2.imread(main_image, 0)
+
+        match_img = ImageProcessorBase().matchFeatures(
+            main, feature_img, feature_count=feature_number)
+
+        plt.imshow(match_img)
+        plt.show()
