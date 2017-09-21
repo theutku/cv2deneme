@@ -3,9 +3,12 @@ import numpy as np
 import matplotlib.pyplot as plt
 
 from displaybase import BaseDisplay
+from cascadebase import HaarCascadeBase
 
 if __name__ == '__main__':
     displayer = BaseDisplay()
+
+    cascadeBase = HaarCascadeBase()
 
     # displayer.displayCvImage('sampleimg.jpg', legend=True)
     # displayer.displayCvImage('sampleimg.jpg', color=False, legend=False)
@@ -37,5 +40,9 @@ if __name__ == '__main__':
     # displayer.displayFeatureMatch(
     #     'feature_match/main-image.jpg', 'feature_match/feature.jpg', feature_number=10)
 
-    displayer.displayMotionReduction(
-        videoSource='background_reduction/people-walking.mp4', noise_reduction='gaussian')
+    # displayer.displayMotionReduction(
+    # videoSource='background_reduction/people-walking.mp4',
+    # noise_reduction='gaussian')
+
+    cascadeBase.displayEyesAndFaces(
+        cascade_files=['haarcascades/haarcascade_frontalface_default.xml', 'haarcascades/haarcascade_eye.xml'], videoSource=0)
