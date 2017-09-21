@@ -37,5 +37,5 @@ if __name__ == '__main__':
     # displayer.displayFeatureMatch(
     #     'feature_match/main-image.jpg', 'feature_match/feature.jpg', feature_number=10)
 
-    displayer.displayReducedBackground(
-        videoSource='background_reduction/people-walking.mp4')
+    displayer.displayMotionReduction(
+        videoSource='background_reduction/people-walking.mp4', noise_reduction='gaussian')

@@ -202,7 +202,7 @@ class BaseDisplay():
         plt.imshow(match_img)
         plt.show()
 
-    def displayReducedBackground(self, videoSource=0):
+    def displayMotionReduction(self, videoSource=0, noise_reduction=None):
         cap = cv2.VideoCapture(videoSource)
         self.printVideoMessage()
 
@@ -212,8 +212,17 @@ class BaseDisplay():
             _, frame = cap.read()
             fgmask = bgfg.apply(frame)
 
-            cv2.imshow('Original Video Feed', frame)
-            cv2.imshow('Extracted Foreground', fgmask)
+            if noise_reduction is not None:
+                smoothedMask, smoothing_method = ImageProcessorBase().addBasicSmoothing(
+                    fgmask, smoothing_method=noise_reduction)
+                cv2.imshow('Original Video Feed', frame)
+                cv2.imshow('Reduced Motion', fgmask)
+                cv2.imshow('Smoothed Motion Reduction ({})'.format(
+                    noise_reduction), smoothedMask)
+
+            else:
+                cv2.imshow('Original Video Feed', frame)
+                cv2.imshow('Reduced Motion', fgmask)
 
             if cv2.waitKey(27) & 0xFF == 27:
                 break
