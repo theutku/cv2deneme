@@ -201,3 +201,22 @@ class BaseDisplay():
 
         plt.imshow(match_img)
         plt.show()
+
+    def displayReducedBackground(self, videoSource=0):
+        cap = cv2.VideoCapture(videoSource)
+        self.printVideoMessage()
+
+        bgfg = cv2.createBackgroundSubtractorMOG2()
+
+        while True:
+            _, frame = cap.read()
+            fgmask = bgfg.apply(frame)
+
+            cv2.imshow('Original Video Feed', frame)
+            cv2.imshow('Extracted Foreground', fgmask)
+
+            if cv2.waitKey(27) & 0xFF == 27:
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()

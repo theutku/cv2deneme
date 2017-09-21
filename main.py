@@ -34,5 +34,8 @@ if __name__ == '__main__':
     # displayer.displayCorners('corners/corner-sample.jpg',
     # feature_count=100, quality=0.1, minimum_distance=10)
 
-    displayer.displayFeatureMatch(
-        'feature_match/main-image.jpg', 'feature_match/feature.jpg', feature_number=10)
+    # displayer.displayFeatureMatch(
+    #     'feature_match/main-image.jpg', 'feature_match/feature.jpg', feature_number=10)
+
+    displayer.displayReducedBackground(
+        videoSource='background_reduction/people-walking.mp4')
