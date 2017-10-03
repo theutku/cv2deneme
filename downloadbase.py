@@ -43,14 +43,19 @@ class CascadeImageProcessor(DownloadPath):
         for sign_path in os.listdir(self.dirs['main']):
             for img in os.listdir(sign_path):
                 for ugly in os.listdir(self.dirs['uglies']):
-                    current_img_path = str(sign_path) + '/' + img
-                    ugly = cv2.imread(self.dirs['uglies'] + ugly)
-                    current_img = cv2.imread(current_img_path)
+                    try:
+                        current_img_path = str(sign_path) + '/' + img
+                        ugly = cv2.imread(self.dirs['uglies'] + ugly)
+                        current_img = cv2.imread(current_img_path)
 
-                    if ugly.shape == img.shape and not (np.bitwise_xor(ugly, current_img).any()):
-                        print('Ugly image found: {}'.format(current_img_path))
-                        print('Image removed')
-                        os.remove(current_img_path)
+                        if ugly.shape == img.shape and not (np.bitwise_xor(ugly, current_img).any()):
+                            print('Ugly image found: {}'.format(
+                                current_img_path))
+                            print('Image removed')
+                            os.remove(current_img_path)
+
+                    except Exception as err:
+                        print(str(err))
 
 
 class CascadeImageDownloader(CascadeImageProcessor):
