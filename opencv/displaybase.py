@@ -2,8 +2,10 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from imagetextbase import ImageTextInput
-from imageprocessbase import ImageProcessorBase
+from opencv.processor.imagetextbase import ImageTextInput
+# from processor.imageprocessbase import ImageProcessorBase
+
+from opencv.processor.imageprocessbase import ImageProcessorBase
 
 
 class BaseDisplay():
@@ -30,7 +32,7 @@ class BaseDisplay():
             ImageTextInput().addText(img, 'Press any key to continue...')
 
         if color is False & save is True:
-            cv2.imwrite('savedimage.png', img)
+            cv2.imwrite('img/savedimage.png', img)
 
         self.displayAndClose(img, 'Image')
 
@@ -48,7 +50,8 @@ class BaseDisplay():
 
         if save is True:
             fourcc = cv2.VideoWriter_fourcc(*'XVID')
-            out = cv2.VideoWriter('savedvideo.avi', fourcc, 20.0, (640, 480))
+            out = cv2.VideoWriter('img/savedvideo.avi',
+                                  fourcc, 20.0, (640, 480))
 
         while True:
             _, frame = cap.read()

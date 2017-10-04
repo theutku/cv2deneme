@@ -10,8 +10,8 @@ class DownloadPath():
         self.download_dir = download_dir
         self.dirs = {
             'main': self.download_dir,
-            'positive': os.path.join(self.download_dir, 'pos'),
-            'negative': os.path.join(self.download_dir, 'neg'),
+            'pos': os.path.join(self.download_dir, 'pos'),
+            'neg': os.path.join(self.download_dir, 'neg'),
             'uglies': os.path.join(self.download_dir, 'uglies')
         }
 
@@ -57,12 +57,9 @@ class CascadeImageProcessor(DownloadPath):
                     except Exception as err:
                         print(str(err))
 
-
-class CascadeImageDownloader(CascadeImageProcessor):
-
     def download_and_process(self, urls, pos=False, count=None):
         pic_count = count + 1
-        base_url = self.dirs['negative'] if pos is False else self.dirs['positive']
+        base_url = self.dirs['neg'] if pos is False else self.dirs['pos']
 
         for image_url in urls.split('\n'):
             # if os.path.exists(base_url + str(pic_count) + '.jpg'):
@@ -97,21 +94,23 @@ class CascadeImageDownloader(CascadeImageProcessor):
             last_pos = self.download_and_process(
                 pos_image_urls, pos=True, count=last_pos)
 
-        # pic_count = 1
-        # for image_url in neg_image_urls.split('\n'):
-        #     try:
-        #         print(image_url)
-        #         urllib.request.urlretrieve(
-        #             image_url, 'downloads/neg/' + str(pic_count) + '.jpg')
-        #         self._grayscale_and_save(
-        #             'downloads/neg/' + str(pic_count) + '.jpg')
-        #         pic_count += 1
+    def create_pos_neg(self):
+        for sign_type in os.listdir(self.dirs['main']):
+            if sign_type != 'neg' and sign_type != 'pos':
+                continue
+            else:
+                for img in os.listdir(self.dirs[sign_type]):
 
-        #     except Exception as err:
-        #         print(str(err))
+                    line = os.path.join(self.dirs[sign_type], img) + '\n'
 
-    # def remove_uglies(self):
+                    if sign_type == 'neg':
+                        with open('bg.txt', 'a') as f:
+                            f.write(line)
+
+                    elif sign_type == 'pos':
+                        with open('info.dat', 'a') as f:
+                            f.write(line)
 
 
-cas = CascadeImageDownloader()
+cas = CascadeImageProcessor()
 cas.prepare_store_images()

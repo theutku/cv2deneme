@@ -2,21 +2,21 @@ import cv2
 import numpy as np
 import matplotlib.pyplot as plt
 
-from displaybase import BaseDisplay
-from cascadebase import HaarCascadeBase
+from opencv.displaybase import BaseDisplay
+from opencv.cascade.cascadebase import HaarCascadeBase
 
 if __name__ == '__main__':
     displayer = BaseDisplay()
 
     cascadeBase = HaarCascadeBase()
 
-    # displayer.displayCvImage('sampleimg.jpg', legend=True)
-    # displayer.displayCvImage('sampleimg.jpg', color=False, legend=False)
+    # displayer.displayCvImage('img/sampleimg.jpg', legend=True)
+    # displayer.displayCvImage('img/sampleimg.jpg', color=False, legend=False)
 
-    # displayer.displayPlotImage('sampleimg.jpg')
-    # displayer.displayPlotImage('sampleimg.jpg', color=False)
+    # displayer.displayPlotImage('img/sampleimg.jpg')
+    # displayer.displayPlotImage('img/sampleimg.jpg', color=False)
 
-    # displayer.displayThreshold('python.png')
+    # displayer.displayThreshold('img/python.png')
 
     # displayer.displayVideoFeed(grayscale=True, save=False)
 
@@ -28,22 +28,22 @@ if __name__ == '__main__':
 
     # displayer.detectEdges(videoSource=0, row_size=100, column_size=200)
 
-    # displayer.matchTemplate('templateimg/sampleimage.jpg',
-    #                         'templateimg/templateimage.jpg')
+    # displayer.matchTemplate('img/templateimg/sampleimage.jpg',
+    #                         'img/templateimg/templateimage.jpg')
 
     # displayer.displayForeground(
-    #     'foreground/foreground-image.jpg', rectangle=(50, 50, 300, 500))
+    #     'img/foreground/foreground-image.jpg', rectangle=(50, 50, 300, 500))
 
-    # displayer.displayCorners('corners/corner-sample.jpg',
+    # displayer.displayCorners('img/corners/corner-sample.jpg',
     # feature_count=100, quality=0.1, minimum_distance=10)
 
     # displayer.displayFeatureMatch(
-    #     'feature_match/main-image.jpg', 'feature_match/feature.jpg', feature_number=10)
+    #     'img/feature_match/main-image.jpg', 'img/feature_match/feature.jpg', feature_number=10)
 
     # displayer.displayMotionReduction(
-    #     videoSource='background_reduction/people-walking.mp4',
+    #     videoSource='img/background_reduction/people-walking.mp4',
     #     noise_reduction='gaussian')
 
     cascadeBase.displayEyesAndFaces(
-        cascade_files=['haarcascades/haarcascade_frontalface_default.xml',
-                       'haarcascades/haarcascade_eye.xml'], videoSource=0)
+        cascade_files=['data/haarcascades/haarcascade_frontalface_default.xml',
+                       'data/haarcascades/haarcascade_eye.xml'], videoSource=0)
