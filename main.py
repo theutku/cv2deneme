@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 
 from opencv.displaybase import BaseDisplay
 from opencv.cascade.cascadebase import HaarCascadeBase
+from opencv.cascade.downloadbase import CascadeImageProcessor
 
 if __name__ == '__main__':
     displayer = BaseDisplay()
@@ -44,6 +45,10 @@ if __name__ == '__main__':
     #     videoSource='img/background_reduction/people-walking.mp4',
     #     noise_reduction='gaussian')
 
-    cascadeBase.displayEyesAndFaces(
-        cascade_files=['data/haarcascades/haarcascade_frontalface_default.xml',
-                       'data/haarcascades/haarcascade_eye.xml'], videoSource=0)
+    # cascadeBase.displayEyesAndFaces(
+    #     cascade_files=['data/haarcascades/haarcascade_frontalface_default.xml',
+    #                    'data/haarcascades/haarcascade_eye.xml'], videoSource=0)
+
+    cas = CascadeImageProcessor('downloads')
+    cas.remove_uglies()
+    cas.create_desc_files()

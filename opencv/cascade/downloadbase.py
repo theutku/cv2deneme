@@ -99,7 +99,7 @@ class CascadeImageProcessor(DownloadPath):
             last_pos = self.download_and_process(
                 pos_image_urls, pos=True, count=last_pos)
 
-    def create_pos_neg(self):
+    def create_desc_files(self):
         for sign_type in os.listdir(self.dirs['main']):
             if sign_type != 'neg' and sign_type != 'pos':
                 continue
@@ -115,9 +115,3 @@ class CascadeImageProcessor(DownloadPath):
                     elif sign_type == 'pos':
                         with open('info.dat', 'a') as f:
                             f.write(line)
-
-
-# cas = CascadeImageProcessor()
-# cas.prepare_store_images()
-
-cas = CascadeImageProcessor('downloads').remove_uglies()

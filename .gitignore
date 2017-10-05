@@ -2,3 +2,5 @@ __pycache__
 .vscode
 *.avi
 downloads
+bg.txt
+info.dat
