@@ -41,10 +41,11 @@ class CascadeImageProcessor(DownloadPath):
 
     def remove_uglies(self):
         for sign_path in os.listdir(self.dirs['main']):
+            if sign_path == 'uglies':
+                continue
             for img in os.listdir(self.dirs[sign_path]):
                 for ugly in os.listdir(self.dirs['uglies']):
-                    if sign_path == 'uglies':
-                        continue
+
                     try:
                         current_img_path = os.path.join(
                             self.dirs[sign_path], img)
