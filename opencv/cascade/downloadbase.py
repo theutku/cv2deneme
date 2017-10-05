@@ -41,14 +41,18 @@ class CascadeImageProcessor(DownloadPath):
 
     def remove_uglies(self):
         for sign_path in os.listdir(self.dirs['main']):
-            for img in os.listdir(sign_path):
+            for img in os.listdir(self.dirs[sign_path]):
                 for ugly in os.listdir(self.dirs['uglies']):
+                    if sign_path == 'uglies':
+                        continue
                     try:
-                        current_img_path = str(sign_path) + '/' + img
-                        ugly = cv2.imread(self.dirs['uglies'] + ugly)
+                        current_img_path = os.path.join(
+                            self.dirs[sign_path], img)
+                        ugly_img = cv2.imread(os.path.join(
+                            self.dirs['uglies'], ugly))
                         current_img = cv2.imread(current_img_path)
 
-                        if ugly.shape == img.shape and not (np.bitwise_xor(ugly, current_img).any()):
+                        if ugly_img.shape == current_img.shape and not (np.bitwise_xor(ugly_img, current_img).any()):
                             print('Ugly image found: {}'.format(
                                 current_img_path))
                             print('Image removed')
@@ -112,5 +116,7 @@ class CascadeImageProcessor(DownloadPath):
                             f.write(line)
 
 
-cas = CascadeImageProcessor()
-cas.prepare_store_images()
+# cas = CascadeImageProcessor()
+# cas.prepare_store_images()
+
+cas = CascadeImageProcessor('downloads').remove_uglies()
