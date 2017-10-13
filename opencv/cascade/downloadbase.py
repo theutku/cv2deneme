@@ -2,7 +2,7 @@ import urllib.request
 import cv2
 import numpy as np
 import os
-import subprocess
+from shutil import copy2
 
 
 class DownloadPath():
@@ -24,6 +24,22 @@ class DownloadPath():
             if not os.path.exists(self.dirs[key]):
                 os.makedirs(self.dirs[key])
 
+    def get_user_request(question):
+        user_options = {
+            'y': 'Yes',
+            'n': 'No'
+        }
+
+        prompt = ''
+        for key, value in user_options.items():
+            line = 'Type {0} for {1}\n'.format(key, value)
+            prompt += line
+
+        user_selection = input(
+            '{0}\n{1}'.format(question, prompt))
+
+        return user_options.get(user_selection, 'n')
+
 
 class CascadeImageProcessor(DownloadPath):
 
@@ -41,27 +57,33 @@ class CascadeImageProcessor(DownloadPath):
         print('Resized Grayscale Image Saved')
 
     def remove_uglies(self):
-        for sign_path in os.listdir(self.dirs['main']):
-            if sign_path == 'uglies':
-                continue
-            for img in os.listdir(self.dirs[sign_path]):
-                for ugly in os.listdir(self.dirs['uglies']):
+        remove_request = self.identify_uglies()
+        if remove_request is True:
+            for sign_path in os.listdir(self.dirs['main']):
+                if sign_path == 'uglies':
+                    continue
+                for img in os.listdir(self.dirs[sign_path]):
+                    for ugly in os.listdir(self.dirs['uglies']):
 
-                    try:
-                        current_img_path = os.path.join(
-                            self.dirs[sign_path], img)
-                        ugly_img = cv2.imread(os.path.join(
-                            self.dirs['uglies'], ugly))
-                        current_img = cv2.imread(current_img_path)
+                        try:
+                            current_img_path = os.path.join(
+                                self.dirs[sign_path], img)
+                            ugly_img = cv2.imread(os.path.join(
+                                self.dirs['uglies'], ugly))
+                            current_img = cv2.imread(current_img_path)
 
-                        if ugly_img.shape == current_img.shape and not (np.bitwise_xor(ugly_img, current_img).any()):
-                            print('Ugly image found: {}'.format(
-                                current_img_path))
-                            print('Image removed')
-                            os.remove(current_img_path)
+                            if ugly_img.shape == current_img.shape and not (np.bitwise_xor(ugly_img, current_img).any()):
+                                print('Ugly image found: {}'.format(
+                                    current_img_path))
+                                print('Image removed')
+                                os.remove(current_img_path)
 
-                    except Exception as err:
-                        print(str(err))
+                        except Exception as err:
+                            print(str(err))
+
+            print('Ugly images successfully removed.')
+        else:
+            print('Ugly image removal cancelled by user.')
 
     def download_and_process(self, urls, pos=False, count=None):
         pic_count = count + 1
@@ -76,9 +98,9 @@ class CascadeImageProcessor(DownloadPath):
             try:
                 print('Downloading Image No {}: {}'.format(pic_count, image_url))
                 urllib.request.urlretrieve(
-                    image_url, base_url + str(pic_count) + '.jpg')
+                    image_url, os.path.join(base_url, str(pic_count) + '.jpg'))
                 self.grayscale_and_save(
-                    base_url + str(pic_count) + '.jpg')
+                    os.path.join(base_url, str(pic_count) + '.jpg'))
                 pic_count += 1
 
             except Exception as err:
@@ -121,3 +143,24 @@ class CascadeImageProcessor(DownloadPath):
                             self.dirs[sign_type], img) + ' 1 0 0 50 50\n'
                         with open('info.dat', 'a') as f:
                             f.write(line)
+
+    def identify_uglies(self):
+        question = 'Type the number of the ugly image:'
+        cancel = 'Type cancel to exit'
+
+        prompt = True
+        while prompt is True:
+            ugly_num = input('{}\n{}\n'.format(question, cancel))
+            ugly_path = os.path.join(self.dirs['neg'], ugly_num + '.jpg')
+
+            if ugly_num == 'cancel':
+                prompt = False
+                return False
+            elif os.path.exists(ugly_path):
+                copy2(ugly_path, self.dirs['uglies'])
+                prompt = False
+            elif not os.path.exists(ugly_path):
+                print('No such image')
+                prompt = True
+
+        return True

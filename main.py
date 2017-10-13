@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 
 from opencv.displaybase import BaseDisplay
 from opencv.cascade.cascadebase import HaarCascadeBase
-from opencv.cascade.downloadbase import CascadeImageProcessor
+from opencv.cascade.downloadbase import DownloadPath
 
 
 def get_download_from_user():
@@ -31,17 +31,22 @@ if __name__ == '__main__':
 
     # cas = CascadeImageProcessor('downloads')
 
-    download_preference = get_download_from_user()
+    download_preference = DownloadPath.get_user_request(
+        'Download Haar Cascade pictures?')
     if download_preference == 'Yes':
         cascadeBase.prepare_store_images()
 
-    cascadeBase.remove_uglies()
     cascadeBase.create_desc_files()
-    cascadeBase.form_positive_images(
-        file_name='info', maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5)
+    cascadeBase.remove_uglies()
 
-    cascadeBase.form_positive_vector(
-        file_name='positives', width=20, height=20)
+    generate_positives = DownloadPath.get_user_request(
+        'Generate Positive Images?')
+    if generate_positives == 'Yes':
+        cascadeBase.form_positive_images(
+            file_name='info', maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5)
+
+    # cascadeBase.form_positive_vector(
+    #     file_name='positives', width=20, height=20)
 
     # displayer.displayCvImage('img/sampleimg.jpg', legend=True)
     # displayer.displayCvImage('img/sampleimg.jpg', color=False, legend=False)
