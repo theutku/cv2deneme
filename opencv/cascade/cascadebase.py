@@ -1,8 +1,14 @@
 import cv2
 import numpy as np
+import os
+import subprocess
+from opencv.cascade.downloadbase import CascadeImageProcessor
 
 
-class HaarCascadeBase():
+class HaarCascadeBase(CascadeImageProcessor):
+
+    def __init__(self, download_dir='downloads'):
+        super().__init__(download_dir=download_dir)
 
     def printVideoMessage(self, message='', key_message=''):
         if message == '':
@@ -55,3 +61,14 @@ class HaarCascadeBase():
 
         cap.release()
         cv2.destroyAllWindows()
+
+    def form_positive_images(self, maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5):
+        file_count = len(os.walk(self.dirs['neg']).__next__()[2])
+        positives_to_generate = file_count - 50
+
+        print('Total negative files: {}'.format(file_count))
+        print('Creating positive images for {} negatives...'.format(
+            positives_to_generate))
+
+        subprocess.call(
+            'opencv_createsamples -img downloads/pos/watch5050.jpg -bg bg.txt -info data/info/info.lst -pngoutput data/info -maxxangle {0} -maxyangle {1} -maxzangle {2} -num {3}'.format(maxxangle, maxyangle, maxzangle, positives_to_generate), shell=True)

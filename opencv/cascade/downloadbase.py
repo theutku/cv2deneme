@@ -2,6 +2,7 @@ import urllib.request
 import cv2
 import numpy as np
 import os
+import subprocess
 
 
 class DownloadPath():
@@ -18,6 +19,8 @@ class DownloadPath():
         self._check_directories()
 
     def _check_directories(self):
+        if not os.path.exists('data/info'):
+            os.makedirs('data/info')
 
         for key, value in self.dirs.items():
             if not os.path.exists(self.dirs[key]):

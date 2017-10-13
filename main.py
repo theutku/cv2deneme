@@ -27,16 +27,17 @@ def get_download_from_user():
 if __name__ == '__main__':
     displayer = BaseDisplay()
 
-    cascadeBase = HaarCascadeBase()
+    cascadeBase = HaarCascadeBase('downloads')
 
-    cas = CascadeImageProcessor('downloads')
+    # cas = CascadeImageProcessor('downloads')
 
     download_preference = get_download_from_user()
     if download_preference == 'Yes':
-        cas.prepare_store_images()
+        cascadeBase.prepare_store_images()
 
-    cas.remove_uglies()
-    cas.create_desc_files()
+    cascadeBase.remove_uglies()
+    cascadeBase.create_desc_files()
+    cascadeBase.form_positive_images()
 
     # displayer.displayCvImage('img/sampleimg.jpg', legend=True)
     # displayer.displayCvImage('img/sampleimg.jpg', color=False, legend=False)
