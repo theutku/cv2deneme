@@ -37,7 +37,11 @@ if __name__ == '__main__':
 
     cascadeBase.remove_uglies()
     cascadeBase.create_desc_files()
-    cascadeBase.form_positive_images()
+    cascadeBase.form_positive_images(
+        file_name='info', maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5)
+
+    cascadeBase.form_positive_vector(
+        file_name='positives', width=20, height=20)
 
     # displayer.displayCvImage('img/sampleimg.jpg', legend=True)
     # displayer.displayCvImage('img/sampleimg.jpg', color=False, legend=False)

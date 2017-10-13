@@ -7,8 +7,14 @@ from opencv.cascade.downloadbase import CascadeImageProcessor
 
 class HaarCascadeBase(CascadeImageProcessor):
 
-    def __init__(self, download_dir='downloads'):
+    def __init__(self, download_dir='downloads', cascade_dir='cascadedata'):
         super().__init__(download_dir=download_dir)
+        self.cascade_dir = cascade_dir
+        self.positive_file_count = 0
+        self.info_file = ''
+
+        if not os.path.exists(os.path.join(self.cascade_dir, 'info')):
+            os.makedirs(os.path.join(self.cascade_dir, 'info'))
 
     def printVideoMessage(self, message='', key_message=''):
         if message == '':
@@ -62,13 +68,25 @@ class HaarCascadeBase(CascadeImageProcessor):
         cap.release()
         cv2.destroyAllWindows()
 
-    def form_positive_images(self, maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5):
+    def form_positive_images(self, file_name='info', maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5):
         file_count = len(os.walk(self.dirs['neg']).__next__()[2])
         positives_to_generate = file_count - 50
+        self.positive_file_count = positives_to_generate
 
         print('Total negative files: {}'.format(file_count))
         print('Creating positive images for {} negatives...'.format(
             positives_to_generate))
 
+        info_file = os.path.join(
+            self.cascade_dir, 'info', file_name + '.lst')
+        self.info_file = info_file
+        output_dir = os.path.join(self.cascade_dir, 'info')
+
         subprocess.call(
-            'opencv_createsamples -img downloads/pos/watch5050.jpg -bg bg.txt -info data/info/info.lst -pngoutput data/info -maxxangle {0} -maxyangle {1} -maxzangle {2} -num {3}'.format(maxxangle, maxyangle, maxzangle, positives_to_generate), shell=True)
+            'opencv_createsamples -img downloads/pos/watch5050.jpg -bg bg.txt -info {0} -pngoutput {1} -maxxangle {2} -maxyangle {3} -maxzangle {4} -num {5}'.format(info_file, output_dir, maxxangle, maxyangle, maxzangle, positives_to_generate), shell=True)
+
+    def form_positive_vector(self, file_name='positives', width=20, height=20):
+        vector_file = os.path.join(self.cascade_dir, file_name + '.vec')
+        print('Creating positive vector file...')
+        subprocess.call(
+            'opencv_createsamples -info {0} -num {1} -w {2} -h {3} -vec {4}'.format(self.info_file, self.positive_file_count, width, height, vector_file), shell=True)
