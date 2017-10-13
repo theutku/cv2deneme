@@ -110,14 +110,13 @@ class CascadeImageProcessor(DownloadPath):
                 continue
             else:
                 for img in os.listdir(self.dirs[sign_type]):
-
-                    line = os.path.join(self.dirs[sign_type], img) + '\n'
-
                     if sign_type == 'neg':
-
+                        line = os.path.join(self.dirs[sign_type], img) + '\n'
                         with open('bg.txt', 'a') as f:
                             f.write(line)
 
                     elif sign_type == 'pos':
+                        line = os.path.join(
+                            self.dirs[sign_type], img) + ' 1 0 0 50 50\n'
                         with open('info.dat', 'a') as f:
                             f.write(line)

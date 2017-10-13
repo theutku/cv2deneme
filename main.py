@@ -37,6 +37,7 @@ if __name__ == '__main__':
 
     cas.remove_uglies()
     cas.create_desc_files()
+
     # displayer.displayCvImage('img/sampleimg.jpg', legend=True)
     # displayer.displayCvImage('img/sampleimg.jpg', color=False, legend=False)
 
