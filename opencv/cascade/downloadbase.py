@@ -100,6 +100,11 @@ class CascadeImageProcessor(DownloadPath):
                 pos_image_urls, pos=True, count=last_pos)
 
     def create_desc_files(self):
+        if os.path.exists('bg.txt'):
+            os.remove('bg.txt')
+        if os.path.exists('info.dat'):
+            os.remove('info.dat')
+
         for sign_type in os.listdir(self.dirs['main']):
             if sign_type != 'neg' and sign_type != 'pos':
                 continue
@@ -109,6 +114,7 @@ class CascadeImageProcessor(DownloadPath):
                     line = os.path.join(self.dirs[sign_type], img) + '\n'
 
                     if sign_type == 'neg':
+
                         with open('bg.txt', 'a') as f:
                             f.write(line)
 

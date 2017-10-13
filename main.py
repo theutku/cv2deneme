@@ -29,13 +29,14 @@ if __name__ == '__main__':
 
     cascadeBase = HaarCascadeBase()
 
+    cas = CascadeImageProcessor('downloads')
+
     download_preference = get_download_from_user()
-
     if download_preference == 'Yes':
-        cas = CascadeImageProcessor('downloads')
-        cas.remove_uglies()
-        cas.create_desc_files()
+        cas.prepare_store_images()
 
+    cas.remove_uglies()
+    cas.create_desc_files()
     # displayer.displayCvImage('img/sampleimg.jpg', legend=True)
     # displayer.displayCvImage('img/sampleimg.jpg', color=False, legend=False)
 
