@@ -7,29 +7,10 @@ from opencv.cascade.cascadebase import HaarCascadeBase
 from opencv.cascade.downloadbase import DownloadPath
 
 
-def get_download_from_user():
-    download_pics = {
-        'y': 'Yes',
-        'n': 'No'
-    }
-
-    prompt = ''
-    for key, value in download_pics.items():
-        line = 'Type {0} for {1}\n'.format(key, value)
-        prompt += line
-
-    user_selection = input(
-        'Download Haar Cascade pictures?\n{}'.format(prompt))
-
-    return download_pics.get(user_selection, 'n')
-
+displayer = BaseDisplay()
+cascadeBase = HaarCascadeBase('downloads')
 
 if __name__ == '__main__':
-    displayer = BaseDisplay()
-
-    cascadeBase = HaarCascadeBase('downloads')
-
-    # cas = CascadeImageProcessor('downloads')
 
     download_preference = DownloadPath.get_user_request(
         'Download Haar Cascade pictures?')
@@ -84,3 +65,6 @@ if __name__ == '__main__':
     # cascadeBase.displayEyesAndFaces(
     #     cascade_files=['data/haarcascades/haarcascade_frontalface_default.xml',
     #                    'data/haarcascades/haarcascade_eye.xml'], videoSource=0)
+
+    # cascadeBase.display_profile_face(
+    #     'data/haarcascades/haarcascade_profileface.xml', videoSource=0)

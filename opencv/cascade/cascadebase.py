@@ -68,6 +68,30 @@ class HaarCascadeBase(CascadeImageProcessor):
         cap.release()
         cv2.destroyAllWindows()
 
+    def display_profile_face(self, cascade_file, videoSource=0):
+        cap = cv2.VideoCapture(videoSource)
+        self.printVideoMessage()
+
+        profile_cascade = self.loadCascadeFile(cascade_file)
+
+        while True:
+            _, frame = cap.read()
+            gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+
+            cv2.imshow('Original Video Feed', frame)
+
+            profiles = profile_cascade.detectMultiScale(gray_frame, 1.3, 5)
+            for (x, y, w, h) in profiles:
+                cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 255, 0), 2)
+
+            cv2.imshow('Face Profile', frame)
+
+            if cv2.waitKey(27) & 0xFF == 27:
+                break
+
+        cap.release()
+        cv2.destroyAllWindows()
+
     def form_positive_images(self, file_name='info', maxxangle=0.5, maxyangle=-0.5, maxzangle=0.5):
         file_count = len(os.walk(self.dirs['neg']).__next__()[2])
         positives_to_generate = file_count - 50
